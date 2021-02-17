@@ -1,0 +1,25 @@
+<div class="row">
+    <div class="col-lg-8">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item" href="/courses">Courses</li>
+                <li class="breadcrumb-item active" aria-current="page">{{course.category.name}}</li>
+            </ol>
+        </nav>
+        <p>
+            <h1>{{ course.name }}</h1>
+        </p>
+        
+        <p>{{ course.description }}</p>
+    </div>
+    <div class="col-lg-4">
+        <div class="card">
+            <img src="{{ course.image }}" alt="{{ course.name }}">
+            <div class="card-body text-center">
+                <div class="mx-4">You have already enrolled</div>
+                <a href="#" class="btn btn-confirm">Resume</a>
+            </div>
+        </div>
+    </div>
+    
+</div>

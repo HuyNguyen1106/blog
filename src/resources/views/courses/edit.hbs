@@ -1,0 +1,41 @@
+<div class="">
+    <h1>Edit course id: {{course._id}}</h1>
+    <form action="/courses/{{course._id}}?_method=PUT" method="post">
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" name="name" id="name" value="{{course.name}}" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea name="description" id="description" class="form-control" rows="5">{{course.description}}</textarea>
+        </div>
+        {{!-- <div class="form-group">
+            <label for="level">Level</label>
+            <select name="level" id="level" class="form-control">
+                <option value="Beginner">Beginner</option>
+                <option value="Standard">Standard</option>
+            </select>
+        </div> --}}
+        <div class="form-group row">
+            <label for="category" class="col-sm-2 col-form-label">Category</label>
+            <div class="col-sm-5">
+                <select name="category" id="category" class="form-control">
+                {{#each categories}}
+                    <option value="{{_id}}" {{#if (equals _id course.category._id)}} selected {{/if}}>{{name}}</option>
+                {{/each}}
+                </select>
+            </div>
+            
+        </div>
+        <div class="form-group row">
+            <label for="videoId" class="col-sm-2 col-form-label">Video ID</label>
+            <div class="col-sm-5">
+                <input type="text" name="videoId" id="videoId" class="form-control" value="{{course.videoId}}">
+            </div>
+        </div>
+        <br>
+        <div class="form-group">
+            <button class="btn btn-success btn-lg" type="submit">Submit</button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,139 @@
+<div>
+    <a href="/me/stored/courses" class="btn btn-secondary">Back</a>
+    <h1>My Trash Courses</h1>
+    <form name="container-form" method="post" action="/courses/multiple-actions">
+        <div class="mt-4 d-flex align-items-center">
+            <div class="col-sm-1 text-center align-middle">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="check-all">
+                    <label class="form-check-label" for="check-all">All</label>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <select class="form-control" name="action" required>
+                    <option value="">--Choose an action--</option>
+                    <option value="force-delete">delete</option>
+                    <option value="restore">restore</option>
+                </select>
+            </div>
+            <div class="col-sm-2">
+                <button class="btn btn-success" id="executeBtn" disabled>Execute</button>
+            </div>
+        </div>
+        <table class="table mt-4">
+            <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Deleted At</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each courses}}
+                <tr>
+                    <td>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" name="courseIds" value="{{_id}}">
+                        </div>
+                    </td>
+                    <th scope="row">{{sum @index 1}}</th>
+                    <td>{{name}}</td>
+                    <td>{{category.name}}</td>
+                    <td>{{deletedAt}}</td>
+                    <td>
+                        <a href="" data-id="{{_id}}" class="btn btn-info restore-btn">Restore</a>
+                        
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" data-id="{{_id}}">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+                {{else}}
+                <tr>
+                    <td colspan="5" class="text-center">Your trash is empty now</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </form>
+    <!-- Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete Confirmation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    This action can not be restore. Are you sure?
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger" id="btn-delete">Confirm</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>      
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <form action="" name="delete-form" method="post"></form>
+    <form action="" name="restore-form" method="post"></form>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var courseId;
+        var deleteForm = document.forms['delete-form'];
+        var restoreForm = document.forms['restore-form'];
+
+        var btnDelete = document.getElementById('btn-delete');
+        var restoreBtn = $('.restore-btn');
+
+        var containForm = $("form[name='container-form']")
+        var checkall = $('#check-all');
+        var checkIds = $('input[name="courseIds"]')
+        var executeBtn = $('#executeBtn')
+
+        $('#deleteModal').on('shown.bs.modal', function(event) {
+            var btn = $(event.relatedTarget)
+            courseId = btn.data('id')
+        })
+
+        btnDelete.onclick = function() {
+            deleteForm.action = `/courses/${courseId}/force?_method=DELETE`
+            deleteForm.submit();
+        }
+
+        restoreBtn.click(function (event) {
+            event.preventDefault();
+            var restoreId = $(this).data('id');
+
+            restoreForm.action = `/courses/${restoreId}/restore?_method=PATCH`
+            restoreForm.submit();
+        })
+
+        checkall.change(function () {
+            var isCheckedAll = $(this).prop('checked')
+            checkIds.prop('checked', isCheckedAll)
+            renderExecuteBtn();
+        })
+
+        checkIds.change(function () {
+            var isCheckedAll = checkIds.length === $('input[name="courseIds"]:checked').length
+            checkall.prop('checked',isCheckedAll)
+            renderExecuteBtn();
+        })
+
+        function renderExecuteBtn() {
+            var checkedItemCount = $('input[name="courseIds"]:checked').length
+            if(checkedItemCount > 0) {
+                executeBtn.attr('disabled', false)
+            } else {
+                executeBtn.attr('disabled', true)
+            }
+        }
+    })   
+</script>

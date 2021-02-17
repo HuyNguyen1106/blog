@@ -1,2 +1,52 @@
 @import 'variables';
 
+.course-page {
+	// display: flex;
+	// flex-direction: row;
+
+	.filter-bar {
+		min-height: 90vh;
+		// min-width: 18vw;
+		margin-right: 10px;
+	}
+	&:first-child {
+		width: 30em;
+	}
+	&:last-child {
+		width: 70%;
+	}
+}
+a.link {
+	color: black;
+	&:hover {
+		text-decoration: none;
+	}
+	&.filter {
+		padding: 5px;
+		margin: 10px;
+	}
+}
+
+.btn-confirm {
+	color: white;
+	background: orange;
+	border-radius: 10px;
+	padding: 7px 25px;
+	font-size: 1.5rem;
+	margin: 10px;
+}
+
+.fade-truncate {
+  position: relative;
+  height: 3.6em; /* exactly three lines */
+}
+.fade-truncate:after {
+  content: "";
+  text-align: right;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 70%;
+  height: 1.2em;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 50%);
+}

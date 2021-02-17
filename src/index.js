@@ -1,5 +1,6 @@
 const path = require('path');
 const express = require('express');
+const methodOverride = require('method-override');
 const morgan = require('morgan');
 const handlebars = require('express-handlebars');
 const app = express();
@@ -10,9 +11,13 @@ const db = require('./config/db');
 db.connect();
 
 const route = require('./routes/index');
+const Category = require('./app/models/Category');
+
+// override with POST having ?_method=DELETE/PUT
+app.use(methodOverride('_method'))
 
 // HTTP log
-app.use(morgan('combined'));
+// app.use(morgan('combined'));
 // Static
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -27,6 +32,10 @@ app.engine(
 	'hbs',
 	handlebars({
 		extname: '.hbs',
+		helpers: {
+			sum: (a, b) => a + b,
+			equals: (a, b) => a === b,
+		}
 	})
 );
 app.set('view engine', 'hbs');
