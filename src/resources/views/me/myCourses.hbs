@@ -19,15 +19,24 @@
                 <button class="btn btn-success" id="executeBtn" disabled>Execute</button>
             </div>
         </div>
-        
+
         <table class="table mt-4">
             <thead>
                 <tr>
                     <th scope="col"></th>
                     <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Category</th>
-                    <th scope="col">Created At</th>
+                    <th scope="col">
+						Name
+						{{{sortable 'name' _sort}}}
+					</th>
+                    <th scope="col">
+						Category
+						{{{sortable 'category' _sort}}}
+					</th>
+                    <th scope="col">
+						Created At
+						{{{sortable 'createdAt' _sort}}}
+					</th>
                     <th></th>
                 </tr>
             </thead>
@@ -73,7 +82,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-danger" id="btn-delete">Confirm</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>      
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -123,5 +132,5 @@
                 executeBtn.attr('disabled', true)
             }
         }
-    })   
+    })
 </script>
